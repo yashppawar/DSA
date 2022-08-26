@@ -20,18 +20,45 @@ static void mergeSort(data_t* p_arr, size_t p, size_t r) {
 }
 
 // from Cormen
-/*
+
 static void merge(data_t* p_arr, size_t start, size_t mid, size_t end) {
     data_t* L = NULL;
     data_t* R = NULL;
+    
     size_t n_1 = mid - start + 1;
     size_t n_2 = end - mid;
 
+    size_t i, j, k, cnt;
 
+    L = (data_t*) xcalloc(n_1 + 1, sizeof(data_t));
+    R = (data_t*) xcalloc(n_2 + 1, sizeof(data_t));
+
+    for ( cnt = 0; cnt < n_1; cnt++ )
+        L[cnt] = p_arr[start + cnt];
+
+    for ( cnt = 0; cnt < n_2; cnt++ ) 
+        R[cnt] = p_arr[mid + cnt + 1];
+
+    // sentinel
+    L[n_1] = INT_MAX;
+    R[n_2] = INT_MAX;
+
+    i = j = 0;
+    k = start;
+    while ( k <= end ) {  // k < r
+        if ( L[i] <= R[j] ) {
+            p_arr[k++] = L[i++];
+        } else {
+            p_arr[k++] = R[j++];
+        }
+    }
+
+    destroy_array(&L);
+    destroy_array(&R);
 }
-*/
-// from CPA
 
+// from CPA
+/*
 static void merge(data_t* p_arr, size_t start, size_t mid, size_t end) {
     data_t* L = NULL;
     data_t* R = NULL;
@@ -41,7 +68,7 @@ static void merge(data_t* p_arr, size_t start, size_t mid, size_t end) {
     // size = end = 9
     // mid = size/2 = 4
     // n1 = 4 - 0 + 1 = 5
-    // n2 = 9 - 4 - 1 = 4
+    // n2 = 9 - 4 = 5
     size_t n_1 = mid - start + 1;
     size_t n_2 = end - mid;
 
@@ -84,3 +111,4 @@ static void merge(data_t* p_arr, size_t start, size_t mid, size_t end) {
     destroy_array(&L);
     destroy_array(&R);
 }
+*/
