@@ -3,8 +3,8 @@
 
 #include <stdio.h>
 
-#define ARRAY_NOT_SORTED -1
-#define DATA_NOT_FOUND   -2
+#define DATA_NOT_FOUND   -1
+#define ARRAY_NOT_SORTED -2
 
 #define TRUE  1
 #define FALSE 0
