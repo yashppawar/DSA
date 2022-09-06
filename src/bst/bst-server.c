@@ -60,6 +60,48 @@ status_t bst_insert(bst_t* p_bst, data_t new_data) {
     }
 }
 
+status_t bst_min(bst_t* p_bst, data_t* storage) {
+    bst_node_t* p_node = NULL;
+
+    if (p_bst -> p_root == NULL)
+        return (TREE_EMPTY);
+
+    p_node = get_min_node(p_bst -> p_root);
+    *storage = p_node -> data;
+    return (SUCCESS);
+}
+
+status_t bst_max(bst_t* p_bst, data_t* storage) {
+    bst_node_t* p_node = NULL;
+
+    if (p_bst -> p_root == NULL)
+        return (TREE_EMPTY);
+
+    p_node = get_max_node(p_bst -> p_root);
+    *storage = p_node -> data;
+    return (SUCCESS);
+}
+
+bst_node_t* get_min_node(bst_node_t* p_node) {
+    bst_node_t* p_run = NULL;
+
+    p_run = p_node;
+    while ( p_run -> left != NULL ) 
+        p_run = p_run -> left;
+
+    return p_run;
+}
+
+bst_node_t* get_max_node(bst_node_t* p_node) {
+    bst_node_t* p_run = NULL;
+
+    p_run = p_node;
+    while ( p_run -> right != NULL ) 
+        p_run = p_run -> right;
+
+    return p_run;
+}
+
 static void destroy_bst_node(bst_node_t* p_node) {
     if (p_node != NULL) {
         destroy_bst_node(p_node -> left);

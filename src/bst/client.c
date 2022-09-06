@@ -1,4 +1,5 @@
 #include <stdio.h>
+#include <assert.h>
 #include <stdlib.h>
 #include <time.h>
 #include "bst.h"
@@ -11,6 +12,7 @@ int random_int(int min, int max);
 int main(int argc, char* argv[]) {
     size_t N, i;
     data_t* p_arr = NULL;
+    data_t storage;
     bst_t* p_bst = NULL;
 
     if ( argc < 2 ) {
@@ -37,6 +39,12 @@ int main(int argc, char* argv[]) {
 
     puts("PostOrder:");
     postorder_r(p_bst);
+
+    assert(bst_min(p_bst, &storage) == SUCCESS);
+    printf("Min: %d\n", storage);
+
+    assert(bst_max(p_bst, &storage) == SUCCESS);
+    printf("Max: %d\n", storage);
 
     free(p_arr);
     p_arr = NULL;
