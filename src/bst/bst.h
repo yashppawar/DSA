@@ -3,9 +3,8 @@
 
 #include <stdlib.h>
 
-#define SUCCESS 1
-#define TRUE    1
-
+#define TRUE                1
+#define SUCCESS             1
 #define TREE_EMPTY          2
 #define TREE_DATA_NOT_FOUND 3
 #define TREE_NO_SUCCESSOR   4
@@ -35,9 +34,15 @@ void destroy_bst(bst_t** pp_bst);
 status_t bst_insert(bst_t* p_bst, data_t new_data);
 status_t bst_min(bst_t* p_bst, data_t* storage);
 status_t bst_max(bst_t* p_bst, data_t* storage);
+status_t bst_inorder_successor(bst_t* p_bst, data_t ext_data, data_t* p_succ_data);
+status_t bst_inorder_predecessor(bst_t* p_bst, data_t ext_data, data_t* p_pred_data);
+int bst_search(bst_t* p_bst, int search_data);
 
 bst_node_t* get_min_node(bst_node_t* p_node);
 bst_node_t* get_max_node(bst_node_t* p_node);
+bst_node_t* inorder_successor(bst_node_t* p_node);
+bst_node_t* inorder_predecessor(bst_node_t* p_node);
+bst_node_t* search_node(bst_t* p_bst, data_t search_data);
 
 static void destroy_bst_node(bst_node_t* p_node);
 static bst_node_t* get_bst_node(data_t data);

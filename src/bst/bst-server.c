@@ -82,6 +82,42 @@ status_t bst_max(bst_t* p_bst, data_t* storage) {
     return (SUCCESS);
 }
 
+status_t bst_inorder_successor(bst_t* p_bst, data_t ext_data, data_t* p_succ_data) {
+    bst_node_t* p_ext_data = NULL; // existing data
+    bst_node_t* p_succ = NULL;
+
+    p_ext_data = search_node(p_bst, ext_data);
+    if (p_ext_data == NULL) 
+        return (TREE_DATA_NOT_FOUND);
+
+    p_succ = inorder_successor(p_ext_data);
+    if (p_succ == NULL)
+        return (TREE_NO_SUCCESSOR);
+
+    *p_succ_data = p_succ -> data;
+    return (SUCCESS);
+}
+
+status_t bst_inorder_predecessor(bst_t* p_bst, data_t ext_data, data_t* p_pred_data) {
+    bst_node_t* p_ext_data = NULL;
+    bst_node_t* p_pred = NULL;
+
+    p_ext_data = search_node(p_bst, ext_data);
+    if (p_ext_data == NULL)
+        return (TREE_DATA_NOT_FOUND);
+
+    p_pred = inorder_predecessor(p_ext_data);
+    if (p_pred == NULL)
+        return (TREE_NO_PREDECESSOR);
+
+    *p_pred_data = p_pred -> data;
+    return (SUCCESS);
+}
+
+int bst_search(bst_t* p_bst, data_t search_data) {
+    return (search_node(p_bst, search_data) != NULL);
+}
+
 bst_node_t* get_min_node(bst_node_t* p_node) {
     bst_node_t* p_run = NULL;
 
@@ -100,6 +136,63 @@ bst_node_t* get_max_node(bst_node_t* p_node) {
         p_run = p_run -> right;
 
     return p_run;
+}
+
+bst_node_t* inorder_successor(bst_node_t* p_node) {
+    bst_node_t* x = NULL;
+    bst_node_t* y = NULL;
+
+    if ( p_node -> right != NULL ) {
+        return get_min_node(p_node -> right);
+    } else {
+        x = p_node;
+        y = x -> parent;
+
+        while ( y != NULL && y -> right == x ) {
+            x = y;
+            y = y -> parent;
+        }
+
+        return y;
+    }
+}
+
+bst_node_t* inorder_predecessor(bst_node_t* p_node) {
+    bst_node_t* p_run = NULL;
+    bst_node_t* x = NULL;
+    bst_node_t* y = NULL;
+
+    if (p_node -> left != NULL) {
+        return get_max_node(p_node -> left);
+    } else {
+        x = p_node;
+        y = x -> parent;
+
+        while ( y != NULL && y -> left == x ) {
+            x = y;
+            y = x -> parent;
+        }
+
+        return y;
+    }
+}
+
+bst_node_t* search_node(bst_t* p_bst, data_t search_data) {
+    bst_node_t* p_run = NULL;
+
+    p_run = p_bst -> p_root;
+
+    while ( p_run != NULL ) {
+        if ( p_run -> data == search_data ) 
+            return p_run;
+
+        if ( p_run -> data > search_data )
+            p_run = p_run -> left;
+        else 
+            p_run = p_run -> right;
+    }
+
+    return (NULL);
 }
 
 static void destroy_bst_node(bst_node_t* p_node) {
