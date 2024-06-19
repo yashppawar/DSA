@@ -36,6 +36,7 @@ status_t bst_min(bst_t* p_bst, data_t* storage);
 status_t bst_max(bst_t* p_bst, data_t* storage);
 status_t bst_inorder_successor(bst_t* p_bst, data_t ext_data, data_t* p_succ_data);
 status_t bst_inorder_predecessor(bst_t* p_bst, data_t ext_data, data_t* p_pred_data);
+status_t bst_remove_data(bst_t* p_bst, data_t ext_data);
 int bst_search(bst_t* p_bst, int search_data);
 
 bst_node_t* get_min_node(bst_node_t* p_node);

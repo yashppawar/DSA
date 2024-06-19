@@ -114,6 +114,76 @@ status_t bst_inorder_predecessor(bst_t* p_bst, data_t ext_data, data_t* p_pred_d
     return (SUCCESS);
 }
 
+status_t bst_remove_data(bst_t* p_bst, data_t ext_data) {
+    bst_node_t* p_remove_node = NULL;
+    bst_node_t* p_run = NULL;
+
+    p_remove_node = search_node(p_bst, ext_data);
+    if (p_remove_node == NULL)
+        return (TREE_DATA_NOT_FOUND);
+
+    if (p_remove_node -> left == NULL) {
+        if (p_remove_node -> parent == NULL) {
+            p_bst -> p_root = p_remove_node -> right;
+        } 
+        else if (p_remove_node == p_remove_node -> parent -> left) {
+            p_remove_node -> parent -> left = p_remove_node -> right;
+        } 
+        else {
+            p_remove_node -> parent -> right = p_remove_node -> right;
+        } 
+
+        if (p_remove_node -> right != NULL) 
+            p_remove_node -> right -> parent = p_remove_node -> parent;
+    } 
+    else if (p_remove_node -> right = NULL) {
+        if (p_remove_node -> parent == NULL) {
+            p_bst -> p_root = p_remove_node -> left;
+        }
+        else if (p_remove_node == p_remove_node -> parent -> left) 
+            p_remove_node -> parent -> left = p_remove_node -> left;
+        else 
+            p_remove_node -> parent -> right = p_remove_node -> left;
+
+        if (p_remove_node -> left != NULL) 
+            p_remove_node -> left -> parent = p_remove_node -> parent;
+    }
+    else {
+        p_run = p_remove_node -> right;
+
+        while (p_run -> left != NULL) 
+            p_run = p_run -> left;
+
+        if (p_run != p_remove_node -> right) {
+            p_run -> parent -> left = p_run -> right;
+            
+            if (p_run -> right != NULL)
+                p_run -> right -> parent = p_run -> parent;
+
+            p_run -> right = p_remove_node -> right;
+            p_remove_node -> right -> parent = p_run;
+        }
+
+        if (p_remove_node -> parent == NULL)
+            p_bst -> p_root = p_run;
+        
+        else if (p_remove_node -> parent -> left == p_remove_node)
+            p_remove_node -> parent -> left = p_run;
+        else 
+            p_remove_node -> parent -> right = p_run;
+
+        p_run -> parent = p_remove_node -> parent;
+
+        p_run -> left = p_remove_node -> left;
+        p_remove_node -> left -> parent = p_run;
+    }
+
+    free(p_remove_node);
+    p_remove_node = NULL;
+
+    return (SUCCESS);
+}
+
 int bst_search(bst_t* p_bst, data_t search_data) {
     return (search_node(p_bst, search_data) != NULL);
 }
